@@ -1,0 +1,251 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{342CEFDF-2CE2-4E8D-BA7A-0ABD860F105D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>StatusCheck.Web</RootNamespace>
+    <AssemblyName>StatusCheck.Web</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>371f74bc</NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ServiceStack">
+      <HintPath>..\packages\ServiceStack.4.0.33\lib\net40\ServiceStack.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Client">
+      <HintPath>..\packages\ServiceStack.Client.4.0.33\lib\net40\ServiceStack.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Common">
+      <HintPath>..\packages\ServiceStack.Common.4.0.33\lib\net40\ServiceStack.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Interfaces">
+      <HintPath>..\packages\ServiceStack.Interfaces.4.0.33\lib\portable-wp80+sl5+net40+win8+monotouch+monoandroid\ServiceStack.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.OrmLite">
+      <HintPath>..\packages\ServiceStack.OrmLite.4.0.33\lib\net45\ServiceStack.OrmLite.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Razor">
+      <HintPath>..\packages\ServiceStack.Razor.4.0.33\lib\net45\ServiceStack.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Text">
+      <HintPath>..\packages\ServiceStack.Text.4.0.33\lib\net40\ServiceStack.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=e06fbc6124f57c43, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\ServiceStack.Razor.4.0.33\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Services\SettingsService.cs" />
+    <Compile Include="TypeMarker.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\HistoryService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bower_components\gridforms\.gitignore" />
+    <EmbeddedResource Include="bower_components\gridforms\gridforms\gridforms.css" />
+    <EmbeddedResource Include="bower_components\gridforms\gridforms\gridforms.js" />
+    <EmbeddedResource Include="bower_components\jquery\dist\jquery.js" />
+    <EmbeddedResource Include="bower_components\jquery\dist\jquery.min.js" />
+    <Content Include="bower_components\jquery\MIT-LICENSE.txt" />
+    <EmbeddedResource Include="bower_components\jquery\src\ajax.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\ajax\jsonp.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\ajax\load.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\ajax\parseJSON.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\ajax\parseXML.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\ajax\script.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\ajax\var\nonce.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\ajax\var\rquery.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\ajax\xhr.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\attributes.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\attributes\attr.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\attributes\classes.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\attributes\prop.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\attributes\support.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\attributes\val.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\callbacks.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\core.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\core\access.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\core\init.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\core\parseHTML.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\core\ready.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\core\var\rsingleTag.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\css.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\css\addGetHookIf.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\css\curCSS.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\css\defaultDisplay.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\css\hiddenVisibleSelectors.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\css\support.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\css\swap.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\css\var\cssExpand.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\css\var\getStyles.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\css\var\isHidden.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\css\var\rmargin.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\css\var\rnumnonpx.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\data.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\data\accepts.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\data\Data.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\data\var\data_priv.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\data\var\data_user.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\deferred.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\deprecated.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\dimensions.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\effects.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\effects\animatedSelector.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\effects\Tween.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\event.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\event\alias.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\event\support.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\exports\amd.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\exports\global.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\intro.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\jquery.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\manipulation.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\manipulation\support.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\manipulation\var\rcheckableType.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\manipulation\_evalUrl.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\offset.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\outro.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\queue.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\queue\delay.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\selector-native.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\selector-sizzle.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\selector.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\serialize.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\sizzle\dist\sizzle.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\sizzle\dist\sizzle.min.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\traversing.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\traversing\findFilter.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\traversing\var\rneedsContext.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\var\arr.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\var\class2type.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\var\concat.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\var\hasOwn.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\var\indexOf.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\var\pnum.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\var\push.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\var\rnotwhite.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\var\slice.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\var\strundefined.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\var\support.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\var\toString.js" />
+    <EmbeddedResource Include="bower_components\jquery\src\wrap.js" />
+    <EmbeddedResource Include="bower_components\responsive-elements\responsive-elements.js" />
+    <Content Include="bower_components\snapjs\.gitignore" />
+    <EmbeddedResource Include="bower_components\snapjs\demo\apps\classNames.html" />
+    <EmbeddedResource Include="bower_components\snapjs\demo\apps\default.html" />
+    <EmbeddedResource Include="bower_components\snapjs\demo\apps\dragElement.html" />
+    <EmbeddedResource Include="bower_components\snapjs\demo\apps\expand.html" />
+    <EmbeddedResource Include="bower_components\snapjs\demo\apps\hyperextend.html" />
+    <EmbeddedResource Include="bower_components\snapjs\demo\apps\noDrag.html" />
+    <EmbeddedResource Include="bower_components\snapjs\demo\apps\ratchet\ratchet.css" />
+    <EmbeddedResource Include="bower_components\snapjs\demo\apps\ratchet\ratchet.js" />
+    <EmbeddedResource Include="bower_components\snapjs\demo\apps\ratchet\template.html" />
+    <EmbeddedResource Include="bower_components\snapjs\demo\apps\rightDisabled.html" />
+    <EmbeddedResource Include="bower_components\snapjs\demo\apps\settings.html" />
+    <EmbeddedResource Include="bower_components\snapjs\demo\apps\skinnyThreshold.html" />
+    <EmbeddedResource Include="bower_components\snapjs\demo\apps\toggles.html" />
+    <EmbeddedResource Include="bower_components\snapjs\demo\assets\demo.css" />
+    <EmbeddedResource Include="bower_components\snapjs\demo\assets\demo.js" />
+    <EmbeddedResource Include="bower_components\snapjs\demo\assets\drag.png" />
+    <EmbeddedResource Include="bower_components\snapjs\demo\assets\graph.png" />
+    <EmbeddedResource Include="bower_components\snapjs\demo\assets\open.png" />
+    <EmbeddedResource Include="bower_components\snapjs\demo\index.html" />
+    <EmbeddedResource Include="bower_components\snapjs\snap.css" />
+    <EmbeddedResource Include="bower_components\snapjs\snap.js" />
+    <EmbeddedResource Include="bower_components\snapjs\snap.min.js" />
+    <EmbeddedResource Include="css\all.css" />
+    <Content Include="default.cshtml" />
+    <EmbeddedResource Include="example.html" />
+    <EmbeddedResource Include="img\logo.png" />
+    <EmbeddedResource Include="img\site-wide\logo.png" />
+    <EmbeddedResource Include="img\site-wide\navigation-expand-target.png" />
+    <EmbeddedResource Include="js\base.js" />
+    <EmbeddedResource Include="js\utils.js" />
+    <None Include="bower.json" />
+    <None Include="bower_components\gridforms\.bower.json" />
+    <None Include="bower_components\gridforms\bower.json" />
+    <None Include="bower_components\gridforms\gridforms\gridforms.sass" />
+    <None Include="bower_components\gridforms\LICENSE" />
+    <EmbeddedResource Include="bower_components\gridforms\README.md" />
+    <None Include="bower_components\jquery\.bower.json" />
+    <None Include="bower_components\jquery\bower.json" />
+    <EmbeddedResource Include="bower_components\jquery\dist\jquery.min.map" />
+    <EmbeddedResource Include="bower_components\jquery\src\sizzle\dist\sizzle.min.map" />
+    <None Include="bower_components\responsive-elements\.bower.json" />
+    <None Include="bower_components\responsive-elements\bower.json" />
+    <None Include="bower_components\responsive-elements\LICENSE" />
+    <EmbeddedResource Include="bower_components\responsive-elements\README.md" />
+    <None Include="bower_components\snapjs\.bower.json" />
+    <None Include="bower_components\snapjs\component.json" />
+    <EmbeddedResource Include="bower_components\snapjs\README.md" />
+    <None Include="css\all.sass" />
+    <None Include="css\components\assorted.sass" />
+    <None Include="css\components\buttons.sass" />
+    <None Include="css\components\forms.sass" />
+    <None Include="css\components\frame.sass" />
+    <None Include="css\components\grid.sass" />
+    <None Include="css\components\messaging.sass" />
+    <None Include="css\components\search-and-filters.sass" />
+    <None Include="css\components\tables.sass" />
+    <None Include="css\components\typography.sass" />
+    <None Include="css\config\colors.sass" />
+    <None Include="css\config\general.sass" />
+    <None Include="css\global.sass" />
+    <None Include="css\lib\normalize.scss" />
+    <None Include="css\utils\general.sass" />
+    <None Include="packages.config" />
+    <Content Include="Views\Shared\Layout.cshtml" />
+    <Content Include="Views\Settings.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\StatusCheck.Lib\StatusCheck.Lib.csproj">
+      <Project>{acdc51ee-dd52-4f71-972a-55a1c344d0d2}</Project>
+      <Name>StatusCheck.Lib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\ServiceStack.Gap.4.0.33\build\ServiceStack.Gap.targets" Condition="Exists('..\packages\ServiceStack.Gap.4.0.33\build\ServiceStack.Gap.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\ServiceStack.Gap.4.0.33\build\ServiceStack.Gap.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ServiceStack.Gap.4.0.33\build\ServiceStack.Gap.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,52 @@
+﻿@using ServiceStack
+@using StatusCheck.Web.Services
+@inherits ServiceStack.Razor.ViewPage<string>
+@{
+    Layout = "Layout";
+    var timeBetweenLoops = AppSettings.Get("TimeBetweenLoops", 45);
+    var alertCooldown = AppSettings.Get("AlertCooldown", 15);
+    var localScriptsPath = AppSettings.Get("LocalScriptsPath", "C:\\Mobile\\Scripts");
+}
+
+
+
+@if (!string.IsNullOrEmpty(Model))
+{
+    <p id="alert" class="flakes-message success">Saved setting successfully.</p>
+}
+
+<form class="grid-form" method="POST" action="/settings" >
+    <fieldset>
+        <legend>Settings</legend>
+        <div data-row-span="1">
+            <div data-field-span="1">
+                <label>Time between check loops (in seconds)</label>
+                <input name="timeBetweenLoops" type="text" value="@timeBetweenLoops">
+            </div>
+        </div>
+        <div data-row-span="1">
+            <div data-field-span="1">
+                <label>Alert cooldown (in minutes)</label>
+                <input name="alertCooldown" type="text" value="@alertCooldown">
+            </div>
+        </div>
+        <div data-row-span="1">
+            <div data-field-span="1">
+                <label>Local Scripts Path</label>
+                <input name="localScriptsPath" type="text" value="@localScriptsPath">
+            </div>
+        </div>
+        <br/><br/>
+        <button class="button-green bigger">save settings</button>
+    </fieldset>
+</form>
+
+@section scripts {
+ <script>
+    $(function() {
+        setTimeout(function() {
+            $('#alert').fadeOut();
+        }, 5000);
+    })
+</script>   
+}

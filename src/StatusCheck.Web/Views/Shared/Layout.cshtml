@@ -1,0 +1,40 @@
+﻿<!doctype html>
+<html>
+<head>
+    <title>Status Check UI</title>
+    <link rel="stylesheet" type="text/css" href="/css/all.css">
+</head>
+<body>
+    <div class="flakes-frame">
+        <div class="flakes-navigation">
+            <ul>
+                <li class="title">Navigation</li>
+                <li><a href="/Settings">Settings</a></li>
+            </ul>
+            <p class="foot">
+            </p>
+        </div>
+        <div class="flakes-content">
+            <div class="flakes-mobile-top-bar">
+                <a href="" class="navigation-expand-target">
+                    <img src="/img/site-wide/navigation-expand-target.png" height="26px">
+                </a>
+            </div>
+            <div class="view-wrap">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+
+    <link rel="stylesheet" type="text/css" href="/bower_components/prism/themes/prism.css">
+    <link rel="stylesheet" type="text/css" href="/bower_components/gridforms/gridforms/gridforms.css">
+    <script src="/bower_components/jquery/dist/jquery.js"></script>
+    <script src="/bower_components/snapjs/snap.js"></script>
+    <script src="/bower_components/responsive-elements/responsive-elements.js"></script>
+    <script src="/bower_components/gridforms/gridforms/gridforms.js"></script>
+    <script src="/js/base.js"></script>
+    <script src="/js/utils.js"></script>
+    @RenderSection("scripts", false)
+</body>
+</html>
