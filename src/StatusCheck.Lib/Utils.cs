@@ -3,26 +3,31 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Chronos.Configuration;
 using ScriptCs.Contracts;
 using Serilog;
 using ServiceStack;
-using ServiceStack.Configuration;
-using StatusCheck.Lib;
+using StatusCheck.Lib.Types;
 
-namespace StatusCheck
+namespace StatusCheck.Lib
 {
     public class Utils
     {
-        public static List<string> GetScriptFiles()
+        public static List<Script> GetScriptFiles()
         {
             var path = ServiceStackHost.Instance.AppSettings.Get("LocalScriptsPath", @"C:\Mobile\Scripts");
             if (!Directory.Exists(path))
             {
                 Log.Information("{Path} directory not exist", path);
-                return new List<string>();
+                return new List<Script>();
             }
-            return Directory.GetFiles(path, "*.csx").ToList();
+            var files = Directory.GetFiles(path, "*.csx");
+
+            return files.Select(x => new Script
+            {
+                Contents = File.ReadAllText(x),
+                Name = Path.GetFileName(x)
+            })
+            .ToList();
         }
 
 

@@ -31,6 +31,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Serilog, Version=1.4.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Serilog.1.4.39\lib\net45\Serilog.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog.FullNetFx">
+      <HintPath>..\packages\Serilog.1.4.39\lib\net45\Serilog.FullNetFx.dll</HintPath>
+    </Reference>
     <Reference Include="ServiceStack">
       <HintPath>..\packages\ServiceStack.4.0.33\lib\net40\ServiceStack.dll</HintPath>
     </Reference>
@@ -65,6 +72,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Services\ScriptsService.cs" />
     <Compile Include="Services\SettingsService.cs" />
     <Compile Include="TypeMarker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -76,6 +84,59 @@
     <EmbeddedResource Include="bower_components\gridforms\gridforms\gridforms.js" />
     <EmbeddedResource Include="bower_components\jquery\dist\jquery.js" />
     <EmbeddedResource Include="bower_components\jquery\dist\jquery.min.js" />
+    <EmbeddedResource Include="bower_components\highlightjs\highlight.pack.js" />
+    <Content Include="bower_components\highlightjs\styles\arta.css" />
+    <Content Include="bower_components\highlightjs\styles\ascetic.css" />
+    <Content Include="bower_components\highlightjs\styles\atelier-dune.dark.css" />
+    <Content Include="bower_components\highlightjs\styles\atelier-dune.light.css" />
+    <Content Include="bower_components\highlightjs\styles\atelier-forest.dark.css" />
+    <Content Include="bower_components\highlightjs\styles\atelier-forest.light.css" />
+    <Content Include="bower_components\highlightjs\styles\atelier-heath.dark.css" />
+    <Content Include="bower_components\highlightjs\styles\atelier-heath.light.css" />
+    <Content Include="bower_components\highlightjs\styles\atelier-lakeside.dark.css" />
+    <Content Include="bower_components\highlightjs\styles\atelier-lakeside.light.css" />
+    <Content Include="bower_components\highlightjs\styles\atelier-seaside.dark.css" />
+    <Content Include="bower_components\highlightjs\styles\atelier-seaside.light.css" />
+    <Content Include="bower_components\highlightjs\styles\brown_paper.css" />
+    <Content Include="bower_components\highlightjs\styles\brown_papersq.png" />
+    <Content Include="bower_components\highlightjs\styles\codepen-embed.css" />
+    <Content Include="bower_components\highlightjs\styles\color-brewer.css" />
+    <Content Include="bower_components\highlightjs\styles\dark.css" />
+    <Content Include="bower_components\highlightjs\styles\default.css" />
+    <Content Include="bower_components\highlightjs\styles\docco.css" />
+    <Content Include="bower_components\highlightjs\styles\far.css" />
+    <Content Include="bower_components\highlightjs\styles\foundation.css" />
+    <Content Include="bower_components\highlightjs\styles\github.css" />
+    <Content Include="bower_components\highlightjs\styles\googlecode.css" />
+    <Content Include="bower_components\highlightjs\styles\hybrid.css" />
+    <Content Include="bower_components\highlightjs\styles\idea.css" />
+    <Content Include="bower_components\highlightjs\styles\ir_black.css" />
+    <Content Include="bower_components\highlightjs\styles\kimbie.dark.css" />
+    <Content Include="bower_components\highlightjs\styles\kimbie.light.css" />
+    <Content Include="bower_components\highlightjs\styles\magula.css" />
+    <Content Include="bower_components\highlightjs\styles\mono-blue.css" />
+    <Content Include="bower_components\highlightjs\styles\monokai.css" />
+    <Content Include="bower_components\highlightjs\styles\monokai_sublime.css" />
+    <Content Include="bower_components\highlightjs\styles\obsidian.css" />
+    <Content Include="bower_components\highlightjs\styles\paraiso.dark.css" />
+    <Content Include="bower_components\highlightjs\styles\paraiso.light.css" />
+    <Content Include="bower_components\highlightjs\styles\pojoaque.css" />
+    <Content Include="bower_components\highlightjs\styles\pojoaque.jpg" />
+    <Content Include="bower_components\highlightjs\styles\railscasts.css" />
+    <Content Include="bower_components\highlightjs\styles\rainbow.css" />
+    <Content Include="bower_components\highlightjs\styles\school_book.css" />
+    <Content Include="bower_components\highlightjs\styles\school_book.png" />
+    <Content Include="bower_components\highlightjs\styles\solarized_dark.css" />
+    <Content Include="bower_components\highlightjs\styles\solarized_light.css" />
+    <Content Include="bower_components\highlightjs\styles\sunburst.css" />
+    <Content Include="bower_components\highlightjs\styles\tomorrow-night-blue.css" />
+    <Content Include="bower_components\highlightjs\styles\tomorrow-night-bright.css" />
+    <Content Include="bower_components\highlightjs\styles\tomorrow-night-eighties.css" />
+    <Content Include="bower_components\highlightjs\styles\tomorrow-night.css" />
+    <Content Include="bower_components\highlightjs\styles\tomorrow.css" />
+    <EmbeddedResource Include="bower_components\highlightjs\styles\vs.css" />
+    <Content Include="bower_components\highlightjs\styles\xcode.css" />
+    <Content Include="bower_components\highlightjs\styles\zenburn.css" />
     <Content Include="bower_components\jquery\MIT-LICENSE.txt" />
     <EmbeddedResource Include="bower_components\jquery\src\ajax.js" />
     <EmbeddedResource Include="bower_components\jquery\src\ajax\jsonp.js" />
@@ -197,6 +258,13 @@
     <None Include="bower_components\gridforms\gridforms\gridforms.sass" />
     <None Include="bower_components\gridforms\LICENSE" />
     <EmbeddedResource Include="bower_components\gridforms\README.md" />
+    <None Include="bower_components\highlightjs\.bower.json" />
+    <None Include="bower_components\highlightjs\bower.json" />
+    <None Include="bower_components\highlightjs\component.json" />
+    <None Include="bower_components\highlightjs\composer.json" />
+    <None Include="bower_components\highlightjs\LICENSE" />
+    <None Include="bower_components\highlightjs\Makefile" />
+    <None Include="bower_components\highlightjs\README.md" />
     <None Include="bower_components\jquery\.bower.json" />
     <None Include="bower_components\jquery\bower.json" />
     <EmbeddedResource Include="bower_components\jquery\dist\jquery.min.map" />
@@ -226,6 +294,7 @@
     <None Include="packages.config" />
     <Content Include="Views\Shared\Layout.cshtml" />
     <Content Include="Views\Settings.cshtml" />
+    <Content Include="Views\Scripts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\StatusCheck.Lib\StatusCheck.Lib.csproj">

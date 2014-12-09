@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Serilog;
@@ -8,6 +10,7 @@ using ServiceStack.Configuration;
 using ServiceStack.Text;
 using StatusCheck.Lib;
 using StatusCheck.Lib.Types;
+using StatusCheck.Web.Services;
 
 namespace StatusCheck
 {
@@ -20,19 +23,21 @@ namespace StatusCheck
 
         public void ProcessLoop()
         {
-            var scripts = Utils.GetScriptFiles();
+            var client = new JsonServiceClient(WebAppHost.BaseUrl);
+            Log.Information("Initializing Scripts");
+            client.Get(new InitializeScripts());
 
+            var scripts = client.Get<List<Script>>(new Script()); 
             Log.Debug("Found {0} script files",scripts.Count);
 
-            foreach (var script in scripts)
+            foreach (var script in scripts.Where(x => x.Enabled))
             {
                 try
                 {
-                    Log.Debug("Running {0}.", Path.GetFileName(script));
+                    Log.Debug("Running {0}.", script.Name);
 
-                    var contents = File.ReadAllText(script);
-                    var result = ScriptCsExecutor.ExecuteScript(contents);
-                    var checkResult = Utils.ConvertToStatusCheckResult(result, script);
+                    var result = ScriptCsExecutor.ExecuteScript(script.Contents);
+                    var checkResult = Utils.ConvertToStatusCheckResult(result, script.Name);
                     Log.Information("Status Check Result = {Result}", checkResult.Dump());
 
                     if (!checkResult.Success)

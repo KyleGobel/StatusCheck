@@ -38,7 +38,8 @@ namespace StatusCheck
 
             using (var db = container.Resolve<IDbConnectionFactory>().Open())
             {
-               db.CreateTableIfNotExists<HistoryLog>(); 
+                db.CreateTableIfNotExists<HistoryLog>();
+                db.DropAndCreateTable<Script>();
             }
 
             Plugins.Add(new RazorFormat
@@ -55,6 +56,8 @@ namespace StatusCheck
         {
             Routes.Add<SettingsRequest>("/settings", "GET, POST");
             Routes.Add<HistoryLog>("/history", "POST");
+            Routes.Add<Script>("/scripts", "GET, POST");
+            Routes.Add<InitializeScripts>("/scripts/initialize", "GET");
         }
     }
 }
