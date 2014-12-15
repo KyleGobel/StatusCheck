@@ -1,0 +1,116 @@
+﻿@inherits ServiceStack.Razor.ViewPage<StatusCheck.Lib.Types.Script>
+@{
+    Layout = "Layout";
+}
+
+
+    <form class="grid-form" method="POST" action="/script">
+        <fieldset>
+            <legend>@(Model.DisplayName ?? Model.Name)</legend>
+            <input type="hidden" name="id" value="@Model.Id" />
+            <div data-row-span="4">
+                <div data-field-span="2">
+                    <label>Display Name</label>
+                    <input name="displayName" type="text" value="@Model.DisplayName">
+                </div>
+                <div data-field-span="1">
+                    <label>Seconds Between Checks</label>
+                    <input name="secondsBetweenChecks" type="text" value="@Model.SecondsBetweenChecks"/>
+                </div>
+                <div data-field-span="1">
+                    <label>Enabled</label>
+                    <input name="enabled" type="checkbox" checked="@Model.Enabled">
+                </div>
+            </div>
+
+            <div data-row-span="4">
+                <div data-field-span="3">
+                    <label>Filename: @Model.Name</label>
+                </div>
+                <div data-field-span="1">
+                    <button type="submit" class="button button-green">save</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+    <pre style="border: solid 1px black; font-size: 12px;">
+<code class="cs">
+@Model.Contents
+</code>
+</pre>
+    <div id="result" style="display:none">
+        <p id="statusMessage" class="flakes-message"></p>
+        <p>Raw Results</p>
+        <pre style="border:solid 1px black; font-size:12px">
+<code class="json"></code>
+</pre>
+    </div>
+    <button class="button button-blue" onclick="runScript()">Run Script</button>
+
+
+
+@section head {
+    <link href="~/bower_components/highlightjs/styles/vs.css" rel="stylesheet" />
+    <style>
+        pre {
+            text-rendering: auto;
+        }
+    </style>
+}
+
+@section scripts {
+
+    <script src="~/bower_components/highlightjs/highlight.pack.js"></script>
+    <script>
+        hljs.initHighlightingOnLoad();
+    </script>
+
+    <script>
+        var $resultsDiv = $("#result"),
+            $statusMsg = $("#result #statusMessage"),
+            $code = $("#result code");
+
+        function runScript() {
+            setExecuting();
+            $.getJSON("/script/@Model.Id/run", function(resp) {
+                    setResults(resp);
+                })
+                .fail(function(xhr, error, statusText) {
+                    $statusMsg
+                        .html("Error executing script: " + statusText)
+                        .addClass("error")
+                        .removeClass("tip")
+                        .removeClass("success");
+                });
+        }
+
+        function setExecuting() {
+            $resultsDiv.show();
+
+            $statusMsg
+                .html("Executing status check")
+                .addClass("tip")
+                .removeClass("success")
+                .removeClass("error");
+        }
+        function setResults(response) {
+            if (response.success) {
+                $statusMsg
+                    .html("Status check passed")
+                    .addClass("success")
+                    .removeClass("error")
+                    .removeClass("tip");
+            } else {
+                $statusMsg
+                    .html("Status check failed")
+                    .addClass("error")
+                    .removeClass("success")
+                    .removeClass("tip");
+            }
+
+            $code.html(JSON.stringify(response, undefined, 2));
+        }
+
+    </script>
+
+}

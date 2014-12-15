@@ -11,6 +11,6 @@ namespace StatusCheck.Lib.Types
         public string DisplayName { get; set; }
         public bool Enabled { get; set; }
         public string Contents { get; set; }
-
+        public long SecondsBetweenChecks { get; set; }
     } 
 }

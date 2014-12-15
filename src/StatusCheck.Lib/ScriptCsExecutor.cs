@@ -6,6 +6,8 @@ using ScriptCs;
 using ScriptCs.Contracts;
 using ScriptCs.Engine.Roslyn;
 using ScriptCs.Hosting;
+using ServiceStack;
+using StatusCheck.Lib.Types;
 
 namespace StatusCheck.Lib
 {
@@ -46,7 +48,13 @@ namespace StatusCheck.Lib
 
         public ConsoleColor ForegroundColor { get; set; }
     }
-    public class ScriptCsExecutor
+
+    public interface IStatusCheckExecutor
+    {
+        StatusCheckResult ExecuteScript(Script script, string currentDirectory);
+
+    }
+    public class ScriptCsExecutor : IStatusCheckExecutor
     {
         private static ScriptServices GetScriptServices()
         {
@@ -57,14 +65,14 @@ namespace StatusCheck.Lib
             var logger = config.GetLogger();
 
             var builder = new ScriptServicesBuilder(console, logger);
-
             builder.ScriptEngine<RoslynScriptEngine>();
             return builder.Build();
         }
 
-        public static ScriptResult ExecuteScript(string scriptContents)
+        private static ScriptResult ExecuteScriptCsScript(string scriptContents, string currentDirectory)
         {
             var scriptServices = GetScriptServices();
+            scriptServices.FileSystem.CurrentDirectory = currentDirectory;
             var executor = scriptServices.Executor;
             //var resolver = scriptServices.ScriptPackResolver;
             scriptServices.InstallationProvider.Initialize();
@@ -79,6 +87,76 @@ namespace StatusCheck.Lib
 
             return result;
         }
+        private static StatusCheckResult ConvertToStatusCheckResult(ScriptResult result, string scriptPath)
+        {
+            if (result.ReturnValue == null)
+            {
+                if (result.CompileExceptionInfo != null)
+                {
+                    return new StatusCheckResult
+                    {
+                        Name = "Unknown",
+                        Message = "Compile Exception: {0}".Fmt(result.CompileExceptionInfo.SourceException.Message),
+                        Success = false,
+                        Timestamp = DateTime.UtcNow,
+                        ScriptName = Path.GetFileName(scriptPath)
+                    };
+                }
+                return new StatusCheckResult
+                {
+                    Name = "No name found",
+                    Message = "'{0}' Script contained no return value".Fmt(Path.GetFileName(scriptPath)),
+                    Success = false,
+                    Timestamp = DateTime.UtcNow,
+                    ScriptName = Path.GetFileName(scriptPath)
+                };
+            }
 
+            var scResult = new StatusCheckResult { ScriptName = Path.GetFileName(scriptPath) };
+
+            try
+            {
+                scResult.Success = (bool)result.ReturnValue
+                    .GetType()
+                    .GetProperty("Success")
+                    .GetValue(result.ReturnValue);
+            }
+            catch
+            {
+                scResult.Success = false;
+            }
+
+            try
+            {
+                scResult.Message = (string)result.ReturnValue
+                    .GetType()
+                    .GetProperty("Message")
+                    .GetValue(result.ReturnValue);
+            }
+            catch
+            {
+                scResult.Message = String.Empty;
+            }
+
+            try
+            {
+                scResult.Name = (string)result.ReturnValue
+                    .GetType()
+                    .GetProperty("Name")
+                    .GetValue(result.ReturnValue);
+            }
+            catch
+            {
+                scResult.Name = "Unnamed Status Check";
+            }
+            scResult.Timestamp = DateTime.UtcNow;
+            return scResult;
+        }
+
+        public StatusCheckResult ExecuteScript(Script script, string currentDirectory)
+        {
+            var scriptResult = ExecuteScriptCsScript(script.Contents, currentDirectory);
+            return ConvertToStatusCheckResult(scriptResult, script.Name);
+        }
     }
 }

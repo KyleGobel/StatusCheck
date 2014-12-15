@@ -54,59 +54,5 @@ namespace StatusCheck.Lib
                 }
             }
         }
-        public static StatusCheckResult ConvertToStatusCheckResult(ScriptResult result, string scriptPath)
-        {
-            if (result.ReturnValue == null)
-            {
-                return new StatusCheckResult
-                {
-                    Name = "No name found",
-                    Message = "'{0}' Script contained no return value".Fmt(Path.GetFileName(scriptPath)),
-                    Success = false,
-                    Timestamp = DateTime.UtcNow,
-                    ScriptName = Path.GetFileName(scriptPath)
-                };
-            }
-
-            var scResult = new StatusCheckResult {ScriptName = Path.GetFileName(scriptPath)};
-
-            try
-            {
-                scResult.Success = (bool) result.ReturnValue
-                    .GetType()
-                    .GetProperty("Success")
-                    .GetValue(result.ReturnValue);
-            }
-            catch
-            {
-                scResult.Success = false;
-            }
-
-            try
-            {
-                scResult.Message = (string) result.ReturnValue
-                    .GetType()
-                    .GetProperty("Message")
-                    .GetValue(result.ReturnValue);
-            }
-            catch
-            {
-                scResult.Message = string.Empty;
-            }
-
-            try
-            {
-                scResult.Name = (string) result.ReturnValue
-                    .GetType()
-                    .GetProperty("Name")
-                    .GetValue(result.ReturnValue);
-            }
-            catch
-            {
-                scResult.Name = "Unnamed Status Check";
-            }
-            scResult.Timestamp = DateTime.UtcNow;
-            return scResult;
-        }
     }
 }

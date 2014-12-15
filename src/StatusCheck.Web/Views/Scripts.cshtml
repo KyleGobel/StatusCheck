@@ -1,69 +1,53 @@
 ﻿@using ServiceStack
-@using StatusCheck.Web.Services
 @inherits ServiceStack.Razor.ViewPage<System.Collections.Generic.List<StatusCheck.Lib.Types.Script>>
 @{
     Layout = "Layout";
 }
 
+<table class="flakes-table">
+    <thead>
+        
+        <tr>
+            <td>
+                Edit
+            </td>
+            <td>
+                Display Name
+            </td>
+            <td>
+                Filename
+            </td>
+            <td>
+                Enabled
+            </td>
+        </tr> 
+    </thead>
+    <tbody>
+ @foreach (var script in Model)
+ {
+     <tr>
+         <td>
+             <a href="/script/@script.Id">Edit</a>
+         </td>
+         <td>
+             @script.DisplayName
+         </td>
+         <td>
+             @script.Name
+         </td>
+         <td>
+             @script.Enabled
+         </td>
+     </tr>
+ }
+    </tbody>
+</table>
 
-@foreach (var script in Model)
-{
-    <form class="grid-form" method="POST" action="/scripts">
-        <fieldset>
-            <legend>@(script.DisplayName ?? script.Name)</legend>
-            <input type="hidden" name="id" value="@script.Id"/>
-            <div data-row-span="4">
-                <div data-field-span="3">
-                    <label>Display Name</label>
-                    <input name="displayName" type="text" value="@script.DisplayName">
-                </div>
-                <div data-field-span="1">
-                    <label>Enabled</label>
-                    <input name="enabled" type="checkbox" checked="@script.Enabled">
-                </div>
-            </div>
-            <div data-row-span="4">
-                <div data-field-span="3">
-                    <label>Filename: @script.Name</label>
-                </div>
-                <div data-field-span="1">
-                    <button type="submit" class="button button-green">save</button>
-                </div>
-            </div>
-        </fieldset>
-    </form>
-    <pre style="border: solid 1px black; font-size: 12px;">
-<code class="cs">
-@script.Contents
-</code>
-</pre>
-    <button class="button button-blue" onclick="runScript('@script.Id')">Run Script</button>
-}
-
-
-
+ 
 @section head {
-    <link href="~/bower_components/highlightjs/styles/vs.css" rel="stylesheet" />
-    <style>
-        pre {
-            text-rendering: auto;
-        }
-    </style>
+
 }
 
 @section scripts {
 
-    <script src="~/bower_components/highlightjs/highlight.pack.js"></script>
-    <script>
-        hljs.initHighlightingOnLoad();
-    </script>
-    
-    <script>
-        function runScript(id) {
-            $.post("script/" + id + "/run", function(resp) {
-
-            });
-        }
-    </script>
-   
 }

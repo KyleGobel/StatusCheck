@@ -1,17 +1,17 @@
-﻿using System.Net;
-using ServiceStack;
+﻿using ServiceStack;
 using ServiceStack.Configuration;
 
-namespace StatusCheck.Web.Services
+namespace StatusCheck.Services
 {
     [DefaultView("Settings")]
     public class SettingsService : Service
     {
+        public OrmLiteAppSettings AppSettings { get; set; }
         public HttpResult Post(SettingsRequest req)
         {
-            ServiceStackHost.Instance.AppSettings.Set("TimeBetweenLoops", req.TimeBetweenLoops);
-            ServiceStackHost.Instance.AppSettings.Set("AlertCooldown", req.AlertCooldown);
-            ServiceStackHost.Instance.AppSettings.Set("LocalScriptsPath", req.LocalScriptsPath);
+            AppSettings.Set("TimeBetweenLoops", req.TimeBetweenLoops);
+            AppSettings.Set("AlertCooldown", req.AlertCooldown);
+            AppSettings.Set("LocalScriptsPath", req.LocalScriptsPath);
 
             return new HttpResult("Success");
         }

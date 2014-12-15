@@ -10,7 +10,7 @@ using ServiceStack.Configuration;
 using ServiceStack.Text;
 using StatusCheck.Lib;
 using StatusCheck.Lib.Types;
-using StatusCheck.Web.Services;
+using StatusCheck.Services;
 
 namespace StatusCheck
 {
@@ -27,17 +27,43 @@ namespace StatusCheck
             Log.Information("Initializing Scripts");
             client.Get(new InitializeScripts());
 
-            var scripts = client.Get<List<Script>>(new Script()); 
+            var scripts = client.Get<List<Script>>(new AllScripts()); 
             Log.Debug("Found {0} script files",scripts.Count);
 
             foreach (var script in scripts.Where(x => x.Enabled))
             {
                 try
                 {
-                    Log.Debug("Running {0}.", script.Name);
+                    Log.Verbose("Checking script {Script} for run", script.Name);
+                    var lastRun = client.Get<LastRunResponse>(script.ConvertTo<LastRun>());
+                    if (lastRun != null)
+                    {
+                        Log.Verbose("{Script} last run at {LastRun}", script.Name, lastRun.Timestamp);
+                        if (script.SecondsBetweenChecks > 0)
+                        {
+                            var tspan = TimeSpan.FromSeconds(script.SecondsBetweenChecks);
+                            if ((lastRun.Timestamp + tspan) <= DateTime.UtcNow)
+                            {
+                                Log.Debug("{Script} due for run {Timespan} ago", script.Name, DateTime.UtcNow - (lastRun.Timestamp + tspan));
+                            }
+                            else
+                            {
+                                Log.Debug("{Script} not ready for {Timespan}", script.Name, (tspan - (DateTime.UtcNow - lastRun.Timestamp)));
+                                continue;
+                            }
+                        }
+                        else
+                        {
+                            Log.Verbose("{Script} set to 0 wait time, running", script.Name);
+                        }
+                        
+                    }
+                    else
+                    {
+                        Log.Debug("{Script} never run.  Running {0}.", script.Name);
+                    }
 
-                    var result = ScriptCsExecutor.ExecuteScript(script.Contents);
-                    var checkResult = Utils.ConvertToStatusCheckResult(result, script.Name);
+                    var checkResult = client.Get<StatusCheckResult>(script.ConvertTo<RunScript>());
                     Log.Information("Status Check Result = {Result}", checkResult.Dump());
 
                     if (!checkResult.Success)
@@ -45,7 +71,16 @@ namespace StatusCheck
                         var notifiers = Utils.GetInstancesOfImplementingTypes<INotifier>();
                         foreach (var n in notifiers)
                         {
-                            n.Notify(checkResult);
+                            var minutesToWait = ServiceStackHost.Instance.AppSettings.Get("AlertCooldown", 15);
+
+                            if (DateTime.UtcNow - TimeSpan.FromMinutes(minutesToWait) > n.LastNotification)
+                            {
+                                n.Notify(checkResult);
+                            }
+                            else
+                            {
+                                Log.Verbose("Alert on cooldown, skipping notification");
+                            }
                         }
                     }
 
@@ -87,7 +122,6 @@ namespace StatusCheck
                     catch (Exception x)
                     {
                         Log.Fatal("Fatal Error in process loop, exiting", x);
-                        Environment.Exit(-1);
                     }
                     Log.Information("Finished process loop, waiting {0}", TimeBetweenLoops.ToString("g"));
                     Thread.Sleep(TimeBetweenLoops);

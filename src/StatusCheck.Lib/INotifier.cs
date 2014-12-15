@@ -9,11 +9,14 @@ namespace StatusCheck.Lib
 {
     public interface INotifier
     {
+        DateTime LastNotification { get; }
         void Notify(StatusCheckResult result);
     }
 
     public class EmailNotifier : INotifier
     {
+        public DateTime LastNotification { get { return _lastNotify; } }
+        private static DateTime _lastNotify;
         public void Notify(StatusCheckResult result)
         {
             var smtpSettings = new TextFileSettings("~/smtpSettings.txt".MapAbsolutePath(), ":");
@@ -33,6 +36,7 @@ namespace StatusCheck.Lib
             };
 
             msg.To.Add(smtpSettings.Get("to"));
+            _lastNotify = DateTime.UtcNow;
             client.Send(msg);
         }
     }

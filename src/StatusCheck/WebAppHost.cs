@@ -5,9 +5,10 @@ using ServiceStack.Data;
 using ServiceStack.OrmLite;
 using ServiceStack.Razor;
 using ServiceStack.Text;
+using StatusCheck.Lib;
 using StatusCheck.Lib.Types;
+using StatusCheck.Services;
 using StatusCheck.Web;
-using StatusCheck.Web.Services;
 
 namespace StatusCheck
 {
@@ -28,18 +29,23 @@ namespace StatusCheck
 
             JsConfig.EmitCamelCaseNames = true;
             JsConfig.PropertyConvention = PropertyConvention.Lenient;
+            JsConfig.DateHandler = DateHandler.ISO8601;
+            JsConfig.AssumeUtc = true;
+            JsConfig.AlwaysUseUtc = true;
+            
 
             container.Register<IDbConnectionFactory>(
-                c => new OrmLiteConnectionFactory(@"Data Source=StatusCheck.db; Version=3;", SqliteDialect.Provider));
+                c => new OrmLiteConnectionFactory(ConfigUtils.GetConnectionString("Postgres") , PostgreSqlDialect.Provider));
 
             container.Register(c => new OrmLiteAppSettings(c.Resolve<IDbConnectionFactory>()));
+            container.Register<IStatusCheckExecutor>(c => new ScriptCsExecutor());
             container.Resolve<OrmLiteAppSettings>().InitSchema();
             AppSettings = container.Resolve<OrmLiteAppSettings>();
 
             using (var db = container.Resolve<IDbConnectionFactory>().Open())
             {
                 db.CreateTableIfNotExists<HistoryLog>();
-                db.DropAndCreateTable<Script>();
+                db.CreateTableIfNotExists<Script>();
             }
 
             Plugins.Add(new RazorFormat
@@ -56,8 +62,14 @@ namespace StatusCheck
         {
             Routes.Add<SettingsRequest>("/settings", "GET, POST");
             Routes.Add<HistoryLog>("/history", "POST");
-            Routes.Add<Script>("/scripts", "GET, POST");
+            Routes.Add<AllScripts>("/scripts", "GET");
+            Routes
+                .Add<Script>("/script/{Id}", "GET")
+                .Add<Script>("/script", "POST");
+            
             Routes.Add<InitializeScripts>("/scripts/initialize", "GET");
+            Routes.Add<RunScript>("/script/{Id}/run", "GET");
+            Routes.Add<LastRun>("/lastRun", "GET");
         }
     }
 }

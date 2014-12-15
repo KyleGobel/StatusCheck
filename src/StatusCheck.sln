@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StatusCheck.Lib", "StatusCh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StatusCheck.Web", "StatusCheck.Web\StatusCheck.Web.csproj", "{342CEFDF-2CE2-4E8D-BA7A-0ABD860F105D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StatusCheck.Services", "StatusCheck.Services\StatusCheck.Services.csproj", "{64A033EB-E843-49A9-86EC-22267228B5EC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{342CEFDF-2CE2-4E8D-BA7A-0ABD860F105D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{342CEFDF-2CE2-4E8D-BA7A-0ABD860F105D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{342CEFDF-2CE2-4E8D-BA7A-0ABD860F105D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64A033EB-E843-49A9-86EC-22267228B5EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64A033EB-E843-49A9-86EC-22267228B5EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64A033EB-E843-49A9-86EC-22267228B5EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64A033EB-E843-49A9-86EC-22267228B5EC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
