@@ -2,17 +2,22 @@
 using System.CodeDom;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
+using System.Text;
 using ScriptCs;
 using ScriptCs.Contracts;
 using ScriptCs.Engine.Roslyn;
 using ScriptCs.Hosting;
 using ServiceStack;
+using ServiceStack.Text;
 using StatusCheck.Lib.Types;
+using LogLevel = ScriptCs.Contracts.LogLevel;
 
 namespace StatusCheck.Lib
 {
     public class FakeConsole : IConsole
     {
+        StringBuilder sb = new StringBuilder();
         public FakeConsole()
         {
             ForegroundColor = ConsoleColor.Blue;
@@ -27,6 +32,7 @@ namespace StatusCheck.Lib
 
         public void WriteLine(string value)
         {
+            sb.Append(value + Environment.NewLine);
         }
 
         public string ReadLine()
@@ -46,6 +52,10 @@ namespace StatusCheck.Lib
         {
         }
 
+        public string GetOutput()
+        {
+            return sb.ToString();
+        }
         public ConsoleColor ForegroundColor { get; set; }
     }
 
@@ -54,12 +64,14 @@ namespace StatusCheck.Lib
         StatusCheckResult ExecuteScript(Script script, string currentDirectory);
 
     }
+
     public class ScriptCsExecutor : IStatusCheckExecutor
     {
         private static ScriptServices GetScriptServices()
         {
             var console = new FakeConsole();
-            var config = new LoggerConfigurator(LogLevel.Error);
+            //var console = new ScriptConsole();
+            var config = new LoggerConfigurator(LogLevel.Debug);
             config.Configure(console);
 
             var logger = config.GetLogger();
@@ -76,11 +88,11 @@ namespace StatusCheck.Lib
             var executor = scriptServices.Executor;
             //var resolver = scriptServices.ScriptPackResolver;
             scriptServices.InstallationProvider.Initialize();
-
             var paths = new List<string>();
             var scriptPacks = new List<IScriptPack>();
 
             executor.Initialize(paths, scriptPacks);
+
 
             var result = executor.ExecuteScript(scriptContents);
             executor.Terminate();
@@ -95,8 +107,19 @@ namespace StatusCheck.Lib
                 {
                     return new StatusCheckResult
                     {
-                        Name = "Unknown",
+                        Name = Path.GetFileName(scriptPath),
                         Message = "Compile Exception: {0}".Fmt(result.CompileExceptionInfo.SourceException.Message),
+                        Success = false,
+                        Timestamp = DateTime.UtcNow,
+                        ScriptName = Path.GetFileName(scriptPath)
+                    };
+                }
+                else if (result.ExecuteExceptionInfo != null)
+                {
+                    return new StatusCheckResult
+                    {
+                        Name = result.ExecuteExceptionInfo.SourceException.Source,
+                        Message = "Execution Exception: {0}".Fmt(result.ExecuteExceptionInfo.SourceException.Message),
                         Success = false,
                         Timestamp = DateTime.UtcNow,
                         ScriptName = Path.GetFileName(scriptPath)

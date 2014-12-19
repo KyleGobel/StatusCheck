@@ -26,13 +26,11 @@ namespace StatusCheck
         public override void Configure(Container container)
         {
             ConfigRoutes();
-
             JsConfig.EmitCamelCaseNames = true;
             JsConfig.PropertyConvention = PropertyConvention.Lenient;
             JsConfig.DateHandler = DateHandler.ISO8601;
             JsConfig.AssumeUtc = true;
             JsConfig.AlwaysUseUtc = true;
-            
 
             container.Register<IDbConnectionFactory>(
                 c => new OrmLiteConnectionFactory(ConfigUtils.GetConnectionString("Postgres") , PostgreSqlDialect.Provider));
